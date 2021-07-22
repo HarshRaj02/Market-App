@@ -11,6 +11,16 @@
   padding: 0;
 }
 
+.marketLoading {
+  text-align: center;
+  color:white
+}
+
+.marketError {
+  text-align: center;
+  color: red;
+}
+
 @keyframes meals-appear {
   from {
     opacity: 0;

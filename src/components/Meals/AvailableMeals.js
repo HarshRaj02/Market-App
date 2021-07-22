@@ -1,36 +1,67 @@
 import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
+import { useEffect , useState} from 'react';
 
-const DUMMY_MEALS = [
-  {
-    id: 'm1',
-    name: 'Table fan',
-    description: 'Finest air in the world',
-    price: 25.99,
-  },
-  {
-    id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
-    price: 16.5,
-  },
-  {
-    id: 'm3',
-    name: 'Broom sticks',
-    description: 'Dust see, Dust sweep',
-    price: 12.99,
-  },
-  {
-    id: 'm4',
-    name: 'Green Lantern',
-    description: 'Environment friendly lamps',
-    price: 18.99,
-  },
-];
 
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((meal) => (
+
+  const [market, setMarket] = useState([]);
+  const [isLoading, isLoadingFunction] = useState(true);
+  const [httpError, setErrorFunction] = useState();
+
+  useEffect(()=>{
+
+    const fetchMarket = async () => {
+     const response = await fetch('https://market-app-dc567-default-rtdb.firebaseio.com/market.json');
+     const responseData = await response.json();
+
+     if(!response.ok)
+       {
+         console.log("inside response not ok");
+         throw new Error("Something went Wrong!!");
+       }
+     const loadedMarket =[];
+
+     for (const key in responseData)
+       loadedMarket.push({
+         id:key,
+         name:responseData[key].name,
+         description : responseData[key].description,
+         price : responseData[key].price
+       })
+
+       setMarket(loadedMarket);
+       isLoadingFunction(false);
+    }
+   
+
+
+      fetchMarket().catch((error) => {
+        isLoadingFunction(false);
+        setErrorFunction(error.message);
+        
+      });
+
+
+  },[]);
+
+  if(isLoading) 
+  {
+    return <section className={classes.marketLoading}>
+         <p>....Loading</p>
+    </section>
+   
+  }
+
+  console.log(httpError);
+  if(httpError) {
+    return <section className={classes.marketError}>
+      <p>{httpError.message}</p>
+    </section>
+  }
+  
+  const mealsList = market.map((meal) => (
     <MealItem
       key={meal.id}
       id={meal.id}
