@@ -13,7 +13,7 @@ const AvailableMeals = () => {
   useEffect(()=>{
 
     const fetchMarket = async () => {
-     const response = await fetch('https://market-app-dc567-default-rtdb.firebaseio.com/market.json');
+     const response = await fetch('https://market-app-43d47-default-rtdb.firebaseio.com/orders.json');
      const responseData = await response.json();
 
      if(!response.ok)

@@ -28,7 +28,7 @@ const Cart = (props) => {
 
   const onSubmitHandler = (userData) => {
 
-    fetch('https://market-app-dc567-default-rtdb.firebaseio.com/orders.json',{
+    fetch('https://market-app-43d47-default-rtdb.firebaseio.com/market.json',{
       method:'POST',
       body : JSON.stringify({
         user:userData,
