@@ -1,10 +1,13 @@
 import classes from './Checkout.module.css';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import CartContext from '../../store/cart-context';
 
 const isEmpty = (item) => item === '';
 const isFiveChars = (item) => item.length === 5 ;
 
 const Checkout = (props) => {
+
+
 
   const [formValidity,setFormValidity] = useState({
     name:true,
@@ -52,6 +55,12 @@ const Checkout = (props) => {
       postalCode: enteredPostalCode,
       city:enteredCity
     })
+
+    //after confirming order, make the cart empty and remove the modal
+
+    
+    // var cartModal = document.getElementById('CartModal');
+    // console.log(cartModal);
   };
 
 
@@ -82,7 +91,7 @@ const Checkout = (props) => {
         <button type='button' onClick={props.onCancel}>
           Cancel
         </button>
-        <button className={classes.submit}>Confirm</button>
+        <button  className={classes.submit}>Confirm</button>
       </div>
     </form>
   );

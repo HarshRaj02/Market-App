@@ -3,12 +3,14 @@ import { useContext } from 'react';
 import MealItemForm from './MealItemForm';
 import classes from './MealItem.module.css';
 import CartContext from '../../../store/cart-context';
+import { Link } from 'react-router-dom';
+
 
 const MealItem = (props) => {
   const cartCtx = useContext(CartContext);
 
-  console.log("PROPS!");
-  console.log(props);
+  // console.log("PROPS!");
+  // console.log(props);
 
   const price = `$${props.price.toFixed(2)}`;
 
@@ -22,9 +24,10 @@ const MealItem = (props) => {
   };
 
   return (
+   
     <li className={classes.meal}>
       <div>
-        <h3>{props.name}</h3>
+      <Link to = {`/mealItem/${props.id}`}><h3>{props.name}</h3></Link>
         <div className={classes.description}>{props.description}</div>
         <div className={classes.price}>{price}</div>
       </div>
@@ -32,6 +35,7 @@ const MealItem = (props) => {
         <MealItemForm id={props.id} onAddToCart={addToCartHandler} />
       </div>
     </li>
+
   );
 };
 

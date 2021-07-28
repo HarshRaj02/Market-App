@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { act } from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 import CartContext from './cart-context';
 
@@ -53,7 +54,13 @@ const cartReducer = (state, action) => {
       items: updatedItems,
       totalAmount: updatedTotalAmount
     };
+
+ 
   }
+    if (action.type === 'EMPTY') 
+    {
+      return  defaultCartState;
+    }
 
   return defaultCartState;
 };
@@ -72,11 +79,16 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: 'REMOVE', id: id });
   };
 
+  const emptyCartHandler = () => {
+    dispatchCartAction({type: 'EMPTY'});
+  }
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    emptyCart: emptyCartHandler
   };
 
   return (
