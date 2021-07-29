@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Input from '../../UI/Input';
 import classes from './MealItemForm.module.css';
+
 
 const MealItemForm = (props) => {
   const [amountIsValid, setAmountIsValid] = useState(true);
@@ -23,6 +25,8 @@ const MealItemForm = (props) => {
     }
 
     props.onAddToCart(enteredAmountNumber);
+
+    amountInputRef.current.value=1;
   };
 
   return (

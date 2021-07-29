@@ -1,12 +1,17 @@
 import classes from './Checkout.module.css';
-import { useContext, useRef, useState } from 'react';
-import CartContext from '../../store/cart-context';
+import { useRef, useState } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions } from '../../redux-store/index';
+import { useHistory } from 'react-router-dom';
 
 const isEmpty = (item) => item === '';
 const isFiveChars = (item) => item.length === 5 ;
 
 const Checkout = (props) => {
 
+  const dispatch = useDispatch();
+  const history = useHistory();
 
 
   const [formValidity,setFormValidity] = useState({
@@ -56,11 +61,14 @@ const Checkout = (props) => {
       city:enteredCity
     })
 
-    //after confirming order, make the cart empty and remove the modal
+
+   // props.onCancel();
+
+    dispatch(cartActions.makeCartItemsZero());
+    history.push('/');
+
 
     
-    // var cartModal = document.getElementById('CartModal');
-    // console.log(cartModal);
   };
 
 
@@ -91,7 +99,7 @@ const Checkout = (props) => {
         <button type='button' onClick={props.onCancel}>
           Cancel
         </button>
-        <button  className={classes.submit}>Confirm</button>
+       <button  className={classes.submit}>Confirm</button>
       </div>
     </form>
   );

@@ -5,16 +5,18 @@ import { useContext, useState,useEffect, useDebugValue } from "react";
 
 import classes from './MealItemDetail.module.css'
 import CartContext from '../../../store/cart-context';
-import MealItemForm from "./MealItemForm";
-import LoadingSpinner from '../../UI/LoadingSpinner'
-const MealItemDetail =  () => {
+import MealItemDetailForm from "./MealItemDetailForm";
+import { cartActions } from '../../../redux-store/index';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-    // OPTIMIZATION REQUIRED
-    //
-    //
+import LoadingSpinner from '../../UI/LoadingSpinner'
+
+const MealItemDetail =  (props) => {
 
   
 
+    const dispatch = useDispatch();
 
     const cartCtx = useContext(CartContext);
     const [isLoading, setLoadingStatus] = useState(false);
@@ -36,21 +38,20 @@ const MealItemDetail =  () => {
     },[]);
 
    
+    const addToCartHandler = amount => {
 
+      console.log("addtocart clicked!");
   
-  
-
-   const addToCartHandler = amount => {
-    cartCtx.addItem({
-      id: params.id,
-      name: data.name,
-      amount: amount,
-      price: data.price
-    });
-  };
-
-
-  
+      dispatch(
+        cartActions.addItemToCart({
+        id: params.id,
+        name: data.name,
+        amount: amount,
+        price: data.price
+      })
+      );
+    }
+    
     return <div className={classes.marketItem}>
         <Card>
            
@@ -62,7 +63,7 @@ const MealItemDetail =  () => {
 
            <div>
 
-               <div className={classes.form}> <MealItemForm id={params.id} onAddToCart={addToCartHandler} /></div>
+               <div className={classes.form}> <MealItemDetailForm id={params.id} onAddToCart={addToCartHandler} /></div>
        
       </div>
      

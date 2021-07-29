@@ -10,6 +10,7 @@ import MealItemDetail from './components/Meals/MealItem/MealItemDetail';
 
 
 
+
 function App() {
   const [cartIsShown, setCartIsShown] = useState(false);
 
@@ -22,7 +23,6 @@ function App() {
   const hideCartHandler = () => {
     setCartIsShown(false);
 
-   //cartCtx.emptyCart();
   };
 
   return (

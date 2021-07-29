@@ -6,24 +6,40 @@ import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
 import Checkout from './Checkout';
 
-const Cart = (props) => {
-  const [isCheckout, setCheckout] = useState(false);
-  const cartCtx = useContext(CartContext);
+import {cartActions} from '../../redux-store/index'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-  const hasItems = cartCtx.items.length > 0;
+const Cart = (props) => {
+
+  const cartItemsStore =  useSelector(state => state.items);
+ 
+  const cartTotalAmountPrice = useSelector(state => state.totalAmount);
+
+  const isModalVisible = useSelector(state=> state.isModalVisible);
+
+  
+
+  const dispatch = useDispatch();
+  const [isCheckout, setCheckout] = useState(false);
+
+
+  const hasItems = cartItemsStore.length > 0;
+  const cartTotalAmount = `$${cartTotalAmountPrice.toFixed(2)}`
 
   const cartItemRemoveHandler = (id) => {
-    cartCtx.removeItem(id);
+    dispatch(cartActions.removeItemFromCart(id));
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+   dispatch(cartActions.addItemToCartOnce(item));
   };
 
   const orderHandler = () =>
    {
      setCheckout(true);
+     dispatch(cartActions.toggleModalVisibility(true));
    }
 
   const onSubmitHandler = (userData) => {
@@ -32,7 +48,7 @@ const Cart = (props) => {
       method:'POST',
       body : JSON.stringify({
         user:userData,
-        orderedItems: cartCtx.items
+        orderedItems : cartItemsStore
       })
     });
 
@@ -40,7 +56,7 @@ const Cart = (props) => {
   }
   const cartItems = (
     <ul className={classes['cart-items']}>
-      {cartCtx.items.map((item) => (
+      {cartItemsStore.map((item) => (
         <CartItem
           key={item.id}
           name={item.name}
@@ -63,16 +79,21 @@ const Cart = (props) => {
   );
 
   return (
-    <Modal id = "CartModal" onClose={props.onClose} >
-      {cartItems}
-      <div className={classes.total}>
-        <span>Total Amount</span>
-        <span>{totalAmount}</span>
-      </div>
-      {isCheckout && <Checkout onConfirm = {onSubmitHandler} onCancel = {props.onClose}/>}
-      {!isCheckout && modalActions}
+    <div>
+   
+    {isModalVisible && <Modal id = "CartModal" onClose={props.onClose} > 
+    {cartItems}
+    <div className={classes.total}>
+      <span>Total Amount</span>
       
-    </Modal>
+      <span>{cartTotalAmount}</span>
+    </div>
+    {isCheckout  && <Checkout onConfirm = {onSubmitHandler} onCancel = {props.onClose}/>}
+    {!isCheckout && modalActions}
+    
+  </Modal>}
+  </div>
+   
   );
 };
 

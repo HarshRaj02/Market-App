@@ -4,30 +4,43 @@ import MealItemForm from './MealItemForm';
 import classes from './MealItem.module.css';
 import CartContext from '../../../store/cart-context';
 import { Link } from 'react-router-dom';
+import { cartActions } from '../../../redux-store/index';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const MealItem = (props) => {
-  const cartCtx = useContext(CartContext);
+  //const cartCtx = useContext(CartContext);
 
-  // console.log("PROPS!");
-  // console.log(props);
+  const dispatch = useDispatch();
 
+  const items = useSelector(state => state.items);
+  const totalAmount = useSelector(state => state.totalAmount);
+  
   const price = `$${props.price.toFixed(2)}`;
 
+
   const addToCartHandler = amount => {
-    cartCtx.addItem({
+
+    console.log("addtocart clicked!");
+
+    dispatch(
+      cartActions.addItemToCart({
       id: props.id,
       name: props.name,
       amount: amount,
       price: props.price
-    });
-  };
+    })
+    );
 
+  }
   return (
    
     <li className={classes.meal}>
       <div>
-      <Link to = {`/mealItem/${props.id}`}><h3>{props.name}</h3></Link>
+      <Link to = {`/mealItem/${props.id}`} style={{ textDecoration: 'none'} }>
+      <h3>{props.name}</h3>
+      </Link>
         <div className={classes.description}>{props.description}</div>
         <div className={classes.price}>{price}</div>
       </div>
