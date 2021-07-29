@@ -5,7 +5,6 @@ import { useContext, useState,useEffect, useDebugValue } from "react";
 
 import classes from './MealItemDetail.module.css'
 import CartContext from '../../../store/cart-context';
-import { classExpression } from "@babel/types";
 import MealItemForm from "./MealItemForm";
 import LoadingSpinner from '../../UI/LoadingSpinner'
 const MealItemDetail =  () => {
@@ -14,41 +13,39 @@ const MealItemDetail =  () => {
     //
     //
 
-    //useEffect, call API in useEffect
+  
 
 
     const cartCtx = useContext(CartContext);
-    const [name, setName] = useState(null);
-    const [description,setDescription] = useState(null);
-    const [price, setPrice] = useState(0);
     const [isLoading, setLoadingStatus] = useState(false);
+
+    const [data,setData] = useState({});
 
     const params = useParams();
     
-    useEffect(()=> {
-        fetchItem();
-    });
-    
-    const fetchItem = async () => {
+    useEffect( ()=> {
+        
+      const fetchData = async () => {
         const response = await fetch(`https://market-app-43d47-default-rtdb.firebaseio.com/market/${params.id}.json`  );
         const responseData = await response.json();
-
+  
         console.log(responseData);
+        setData(responseData);
+      };
+      fetchData();
+    },[]);
 
-        setName(responseData.name);
-        setDescription(responseData.description);
-        setPrice(responseData.price);
-       
-    }
+   
+
   
   
 
    const addToCartHandler = amount => {
     cartCtx.addItem({
       id: params.id,
-      name: name,
+      name: data.name,
       amount: amount,
-      price: price
+      price: data.price
     });
   };
 
@@ -58,9 +55,9 @@ const MealItemDetail =  () => {
         <Card>
            
            <div className={classes.sizeMeasure}>
-             <h3>{name}</h3>
-             <div className={classes.description}>{description}</div>
-             <div className={classes.price}>{price}</div>
+             <h3>{data.name}</h3>
+             <div className={classes.description}>{data.description}</div>
+             <div className={classes.price}>{data.price}</div>
            </div>
 
            <div>
