@@ -9,13 +9,14 @@ import Checkout from './Checkout';
 import {cartActions} from '../../redux-store/index'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 
 const Cart = (props) => {
 
   const cartItemsStore =  useSelector(state => state.items);
  
   const cartTotalAmountPrice = useSelector(state => state.totalAmount);
+  console.log(cartTotalAmountPrice);
 
   const isModalVisible = useSelector(state=> state.isModalVisible);
 
@@ -39,7 +40,6 @@ const Cart = (props) => {
   const orderHandler = () =>
    {
      setCheckout(true);
-     dispatch(cartActions.toggleModalVisibility(true));
    }
 
   const onSubmitHandler = (userData) => {
