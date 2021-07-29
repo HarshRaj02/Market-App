@@ -26,6 +26,7 @@ const Cart = (props) => {
   const [isCheckout, setCheckout] = useState(false);
 
 
+  //adding a comment here
   const hasItems = cartItemsStore.length > 0;
   const cartTotalAmount = `$${cartTotalAmountPrice.toFixed(2)}`
 
