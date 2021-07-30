@@ -2,8 +2,6 @@ import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
 import { useEffect , useState} from 'react';
-import MealItemDetail from './MealItem/MealItemDetail';
-import { Link } from 'react-router-dom';
 
 
 
@@ -19,9 +17,6 @@ const AvailableMeals = () => {
      const response = await fetch('https://market-app-43d47-default-rtdb.firebaseio.com/market.json');
      const responseData = await response.json();
 
-    //  console.log("RESPONSE!!");
-    //  console.log(responseData);
-
      if(!response.ok)
        {
          console.log("inside response not ok");
@@ -34,7 +29,9 @@ const AvailableMeals = () => {
          id:key,
          name:responseData[key].name,
          description : responseData[key].description,
-         price : responseData[key].price
+         price : responseData[key].price,
+         image : responseData[key].image,
+         detail: responseData[key].detail
        })
 
        setMarket(loadedMarket);
@@ -68,19 +65,16 @@ const AvailableMeals = () => {
   }
   
   const mealsList = market.map((meal) => (
-    
-    // <Link to = {`/mealItem/${meal.id}`}>
     <MealItem
       key={meal.id}
       id={meal.id}
       name={meal.name}
       description={meal.description}
       price={meal.price}
+      image = {meal.image}
+      detail = {meal.detail}
     />
-    // </Link>
-    
 
-    
   ));
 
   return (

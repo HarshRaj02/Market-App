@@ -18,8 +18,8 @@ const MealItemDetail =  (props) => {
 
     const dispatch = useDispatch();
 
-    const cartCtx = useContext(CartContext);
     const [isLoading, setLoadingStatus] = useState(false);
+ 
 
     const [data,setData] = useState({});
 
@@ -29,9 +29,13 @@ const MealItemDetail =  (props) => {
         
       const fetchData = async () => {
         const response = await fetch(`https://market-app-43d47-default-rtdb.firebaseio.com/market/${params.id}.json`  );
+
         const responseData = await response.json();
+
+        console.log("INSIDE MEALDETAILFORM");
+        console.log(response);
+
   
-        console.log(responseData);
         setData(responseData);
       };
       fetchData();
@@ -40,8 +44,6 @@ const MealItemDetail =  (props) => {
    
     const addToCartHandler = amount => {
 
-      console.log("addtocart clicked!");
-  
       dispatch(
         cartActions.addItemToCart({
         id: params.id,
@@ -51,6 +53,8 @@ const MealItemDetail =  (props) => {
       })
       );
     }
+
+    console.log(data.image);
     
     return <div className={classes.marketItem}>
         <Card>
@@ -58,14 +62,14 @@ const MealItemDetail =  (props) => {
            <div className={classes.sizeMeasure}>
              <h3>{data.name}</h3>
              <div className={classes.description}>{data.description}</div>
-             <div className={classes.price}>{data.price}</div>
+             <div className={classes.price}>${data.price}</div>
+             <img className = {classes.image} src = {data.image} alt="image not available"></img>
+             <p className= {classes.detail}>{data.detail}</p>
            </div>
 
            <div>
-
                <div className={classes.form}> <MealItemDetailForm id={params.id} onAddToCart={addToCartHandler} /></div>
-       
-      </div>
+           </div>
      
        </Card>
             

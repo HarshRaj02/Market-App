@@ -65,9 +65,7 @@ const cartSlice = createSlice({
              state.totalQuantity = state.items.reduce((curNumber, item) => {
                 return curNumber + item.amount;
               }, 0);
-             
-              state.isModalVisible = true;
-         
+        
         },
 
         makeCartItemsZero(state) {
@@ -75,13 +73,7 @@ const cartSlice = createSlice({
             state.items = [];
             state.totalAmount = 0;
 
-            state.isModalVisible = false;
           },
-
-        toggleModalVisibility(state,action) {
-
-            state.isModalVisible = action.payload;
-        } , 
 
         addItemToCartOnce(state,action) {
             const newItem = action.payload;

@@ -62,7 +62,7 @@ const Checkout = (props) => {
     })
 
 
-   // props.onCancel();
+    props.onCancel();
 
     dispatch(cartActions.makeCartItemsZero());
     history.push('/');

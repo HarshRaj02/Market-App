@@ -1,17 +1,21 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
 import classes from './Cart.module.css';
-import CartContext from '../../store/cart-context';
+
 import Checkout from './Checkout';
+
 
 import {cartActions} from '../../redux-store/index'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 
+
 const Cart = (props) => {
+
+
 
   const cartItemsStore =  useSelector(state => state.items);
  
@@ -43,7 +47,7 @@ const Cart = (props) => {
      setCheckout(true);
    }
 
-  const onSubmitHandler = (userData) => {
+  const onSubmitHandler =  (userData) => {
 
     fetch('https://market-app-43d47-default-rtdb.firebaseio.com/orders.json',{
       method:'POST',
@@ -51,8 +55,18 @@ const Cart = (props) => {
         user:userData,
         orderedItems : cartItemsStore
       })
+    }).then(response => {
+      console.log(response);
+      if(response.status===200)
+        alert("Order placed successfully!");
+      
+      else
+        alert("Something went wrong!");
     });
 
+
+
+  
 
   }
   const cartItems = (
@@ -78,11 +92,13 @@ const Cart = (props) => {
         {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
       </div>
   );
+ 
 
+ 
   return (
     <div>
    
-    {isModalVisible && <Modal id = "CartModal" onClose={props.onClose} > 
+    <Modal id = "CartModal" onClose={props.onClose} > 
     {cartItems}
     <div className={classes.total}>
       <span>Total Amount</span>
@@ -92,7 +108,7 @@ const Cart = (props) => {
     {isCheckout  && <Checkout onConfirm = {onSubmitHandler} onCancel = {props.onClose}/>}
     {!isCheckout && modalActions}
     
-  </Modal>}
+  </Modal>
   </div>
    
   );
