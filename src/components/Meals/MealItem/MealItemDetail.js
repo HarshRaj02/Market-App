@@ -26,16 +26,16 @@ const MealItemDetail =  (props) => {
     const params = useParams();
     
     useEffect( ()=> {
-        
+
+      setLoadingStatus(true);  
       const fetchData = async () => {
         const response = await fetch(`https://market-app-43d47-default-rtdb.firebaseio.com/market/${params.id}.json`  );
 
+        if(response.status===200)
+          setLoadingStatus(false);
+
         const responseData = await response.json();
 
-        console.log("INSIDE MEALDETAILFORM");
-        console.log(response);
-
-  
         setData(responseData);
       };
       fetchData();
@@ -55,10 +55,19 @@ const MealItemDetail =  (props) => {
     }
 
     console.log(data.image);
+
+    if(isLoading)
+     {
+       return <div className={classes.marketItem}>
+          <Card>
+         <p>Loading.........</p>
+         </Card>
+       </div>
+      
+     }
     
     return <div className={classes.marketItem}>
         <Card>
-           
            <div className={classes.sizeMeasure}>
              <h3>{data.name}</h3>
              <div className={classes.description}>{data.description}</div>
