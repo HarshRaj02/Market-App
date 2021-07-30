@@ -20,7 +20,7 @@ const cartSlice = createSlice({
 
         const existingCartItem = state.items[existingCartItemIndex]; 
        
-        console.log(newItem);
+        
        
        
 
@@ -42,14 +42,14 @@ const cartSlice = createSlice({
             return curNumber + item.amount;
           }, 0);
 
-          state.isModalVisible = true;
+
         },
 
 
         removeItemFromCart(state,action) {
 
             const id = action.payload;
-            console.log(id);
+   
 
             const existingItem = state.items.find((item) => item.id === id);
             state.totalAmount = state.totalAmount - existingItem.price;

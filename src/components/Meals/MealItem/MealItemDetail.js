@@ -54,7 +54,7 @@ const MealItemDetail =  (props) => {
       );
     }
 
-    console.log(data.image);
+  
 
     if(isLoading)
      {

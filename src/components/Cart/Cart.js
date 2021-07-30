@@ -20,7 +20,7 @@ const Cart = (props) => {
   const cartItemsStore =  useSelector(state => state.items);
  
   const cartTotalAmountPrice = useSelector(state => state.totalAmount);
-  console.log(cartTotalAmountPrice);
+
 
   const isModalVisible = useSelector(state=> state.isModalVisible);
 
@@ -56,7 +56,7 @@ const Cart = (props) => {
         orderedItems : cartItemsStore
       })
     }).then(response => {
-      console.log(response);
+      
       if(response.status===200)
         alert("Order placed successfully!");
       

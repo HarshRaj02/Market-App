@@ -19,7 +19,6 @@ const AvailableMeals = () => {
 
      if(!response.ok)
        {
-         console.log("inside response not ok");
          throw new Error("Something went Wrong!!");
        }
      const loadedMarket =[];
@@ -57,7 +56,6 @@ const AvailableMeals = () => {
    
   }
 
-  console.log(httpError);
   if(httpError) {
     return <section className={classes.marketError}>
       <p>{httpError.message}</p>

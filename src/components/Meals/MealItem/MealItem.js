@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 
 const MealItem = (props) => {
-  //const cartCtx = useContext(CartContext);
+
 
   const dispatch = useDispatch();
 
@@ -22,7 +22,7 @@ const MealItem = (props) => {
 
   const addToCartHandler = amount => {
 
-    console.log("addtocart clicked!");
+
 
     dispatch(
       cartActions.addItemToCart({
